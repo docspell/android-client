@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DocspellShare</string>
+    <string name="title_activity_main">Docspell Share</string>
+    <string name="title_activity_share">Upload to Docspell</string>
+    <string name="title_activity_qrcode">Scan URL</string>
+    <string name="create_new_url">Create New Url</string>
+    <string name="url_name_label">Name:</string>
+    <string name="url_value_label">URL:</string>
+    <string name="uploadingLabel">Uploading: %s</string>
+</resources>
