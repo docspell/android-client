@@ -11,6 +11,17 @@ It works as follows:
   result with the docspell android app. It will upload it to the
   configured url.
 
+
+## Building
+
+Using gradle:
+
+``` shell
+gradle assembleRelease
+```
+
+Settings for signing must be made available.
+
 ## Helpers
 
 - https://nixos.wiki/wiki/Android

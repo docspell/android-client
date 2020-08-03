@@ -1,7 +1,9 @@
 package org.docspell.docspellshare.http;
 
 import android.os.Process;
+import android.util.Log;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
@@ -28,13 +30,25 @@ public final class UploadManager {
   }
 
   public void submit(HttpRequest request) {
-    throw new UnsupportedOperationException("not implemented");
+    executorService.submit(new UploadWorker(request));
   }
 
   static class UploadWorker implements Runnable {
+
+    private final HttpRequest request;
+
+    UploadWorker(HttpRequest request) {
+      this.request = request;
+    }
+
     @Override
     public void run() {
       Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+      try {
+        request.execute();
+      } catch (IOException e) {
+        Log.e("upload", "Error uploading!", e);
+      }
     }
   }
 

@@ -22,7 +22,11 @@ public abstract class Option<A> {
     return (Option) None.INSTANCE;
   }
 
+  public abstract A orElse(A defaultValue);
+
   public abstract <B> Option<B> map(Fun<A, B> f);
+
+  public abstract <B> Option<B> flatMap(Fun<A, Option<B>> f);
 
   public abstract <B> B fold(Fun<A, B> fa, Lazy<B> fe);
 
@@ -39,6 +43,16 @@ public abstract class Option<A> {
 
     public Some(A value) {
       this.value = value;
+    }
+
+    @Override
+    public <B> Option<B> flatMap(Fun<A, Option<B>> f) {
+      return f.apply(value);
+    }
+
+    @Override
+    public A orElse(A defaultValue) {
+      return value;
     }
 
     @Override
@@ -89,8 +103,18 @@ public abstract class Option<A> {
     private static final Option<Void> INSTANCE = new None();
 
     @Override
+    public <B> Option<B> flatMap(Fun<Void, Option<B>> f) {
+      return (Option) this;
+    }
+
+    @Override
     public <B> Option<B> map(Fun<Void, B> f) {
       return (Option) this;
+    }
+
+    @Override
+    public Void orElse(Void defaultValue) {
+      return defaultValue;
     }
 
     @Override

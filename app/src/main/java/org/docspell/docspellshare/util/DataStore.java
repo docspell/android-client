@@ -68,6 +68,22 @@ public final class DataStore {
     return Option.ofNullable(res).filter(Strings::notNullOrBlank);
   }
 
+  public Option<UrlItem> getDefaultUrl() {
+    List<UrlItem> all = loadAll();
+    Option<String> name = getDefault();
+    return name.flatMap(this::find);
+  }
+
+  private Option<UrlItem> find(String name) {
+    List<UrlItem> all = loadAll();
+    for (UrlItem item : all) {
+      if (item.getName().equals(name)) {
+        return Option.of(item);
+      }
+    }
+    return Option.empty();
+  }
+
   public boolean isDefault(String name) {
     return getDefault().equals(Option.of(name));
   }
