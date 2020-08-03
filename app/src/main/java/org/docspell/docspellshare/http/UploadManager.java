@@ -30,31 +30,29 @@ public final class UploadManager {
   }
 
   public void submit(HttpRequest request) {
-    executorService.submit(new UploadWorker(request));
+    executorService.submit(new UploadWorker(request, progress.get()));
   }
 
   static class UploadWorker implements Runnable {
 
     private final HttpRequest request;
+    private final ProgressListener listener;
 
-    UploadWorker(HttpRequest request) {
+    UploadWorker(HttpRequest request, ProgressListener listener) {
       this.request = request;
+      this.listener = listener;
     }
 
     @Override
     public void run() {
       Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
       try {
-        request.execute();
+        int code = request.execute(listener);
+        listener.onFinish(code);
       } catch (IOException e) {
         Log.e("upload", "Error uploading!", e);
+        listener.onException(e);
       }
     }
-  }
-
-  public interface ProgressListener {
-    ProgressListener NONE = (name, progress) -> {};
-
-    void onProgress(String name, int progress);
   }
 }

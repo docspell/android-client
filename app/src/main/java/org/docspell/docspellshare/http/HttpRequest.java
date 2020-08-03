@@ -6,6 +6,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import org.docspell.docspellshare.data.Option;
+import org.docspell.docspellshare.util.Uris;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -27,6 +29,7 @@ import okio.Source;
 import static org.docspell.docspellshare.util.Strings.requireNonEmpty;
 
 public final class HttpRequest {
+  private static final int CHUNK_SIZE = 16 * 1024;
   private static final OkHttpClient client =
       new OkHttpClient.Builder()
           .connectionSpecs(
@@ -36,6 +39,7 @@ public final class HttpRequest {
                   ConnectionSpec.CLEARTEXT))
           .readTimeout(5, TimeUnit.MINUTES)
           .writeTimeout(5, TimeUnit.MINUTES)
+          .socketFactory(new RestrictedSocketFactory(CHUNK_SIZE))
           .followRedirects(true)
           .followSslRedirects(true)
           .build();
@@ -48,14 +52,15 @@ public final class HttpRequest {
     this.data = data;
   }
 
-  public void execute() throws IOException {
+  public int execute(ProgressListener progressListener) throws IOException {
     MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
     for (DataPart dp : data) {
-      body.addFormDataPart("file", dp.getName(), createPartBody(dp));
+      body.addFormDataPart("file", dp.getName(), createPartBody(dp, progressListener));
     }
 
     Request req = new Request.Builder().url(url).post(body.build()).build();
-    client.newCall(req).execute();
+    Response response = client.newCall(req).execute();
+    return response.code();
   }
 
   public static Builder newBuilder() {
@@ -66,7 +71,7 @@ public final class HttpRequest {
     private final List<DataPart> parts = new ArrayList<>();
     private String url;
 
-    public Builder addFile(ContentResolver resolver, Uri data, String type) {
+    public Builder addFile(ContentResolver resolver, Uri data) {
       parts.add(
           new DataPart() {
             @Override
@@ -81,7 +86,12 @@ public final class HttpRequest {
 
             @Override
             public Option<String> getType() {
-              return Option.of(type);
+              return Option.ofNullable(resolver.getType(data));
+            }
+
+            @Override
+            public long getTotalSize() {
+              return Uris.getFileSize(data, resolver);
             }
           });
       return this;
@@ -103,9 +113,12 @@ public final class HttpRequest {
     String getName();
 
     Option<String> getType();
+
+    /** Return -1, if unknown. */
+    long getTotalSize();
   }
 
-  private static RequestBody createPartBody(DataPart part) {
+  private static RequestBody createPartBody(DataPart part, ProgressListener listener) {
     final String octetStream = "application/octet-stream";
     return new RequestBody() {
       @Override
@@ -115,10 +128,21 @@ public final class HttpRequest {
       }
 
       @Override
+      public long contentLength() {
+        return part.getTotalSize();
+      }
+
+      @Override
       public void writeTo(@NonNull BufferedSink sink) throws IOException {
         try (InputStream in = part.getData();
             Source source = Okio.source(in)) {
-          sink.writeAll(source);
+          long total = 0;
+          long read;
+          while ((read = source.read(sink.getBuffer(), CHUNK_SIZE)) != -1) {
+            total += read;
+            sink.flush();
+            listener.onProgress(part.getName(), total, part.getTotalSize());
+          }
         }
       }
     };

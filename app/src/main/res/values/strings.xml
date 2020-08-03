@@ -12,4 +12,5 @@
     <string name="delete_btn_label">Delete</string>
     <string name="cancel_btn_label">Cancel</string>
     <string name="default_switch_label">Default</string>
+    <string name="uploadError">Upload Error: %s</string>
 </resources>
