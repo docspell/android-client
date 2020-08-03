@@ -4,19 +4,17 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Process;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.docspell.docspellshare.HttpRequest;
+import org.docspell.docspellshare.http.HttpRequest;
 import org.docspell.docspellshare.R;
-import org.docspell.docspellshare.Strings;
-import org.docspell.docspellshare.UploadManager;
+import org.docspell.docspellshare.util.Strings;
+import org.docspell.docspellshare.http.UploadManager;
 
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 

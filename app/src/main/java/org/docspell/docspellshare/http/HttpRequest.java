@@ -1,4 +1,4 @@
-package org.docspell.docspellshare;
+package org.docspell.docspellshare.http;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -15,6 +15,10 @@ public final class HttpRequest {
   public static class Builder {
 
     public Builder addFile(ContentResolver resolver, Uri data) {
+      return this;
+    }
+
+    public Builder setUrl(String url) {
       return this;
     }
 

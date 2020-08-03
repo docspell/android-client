@@ -1,14 +1,20 @@
 package org.docspell.docspellshare.data;
 
-import org.docspell.docspellshare.Fun;
-import org.docspell.docspellshare.Lazy;
+import org.docspell.docspellshare.util.Fun;
+import org.docspell.docspellshare.util.Lazy;
+
+import java.util.Objects;
 
 public abstract class Option<A> {
 
   private Option() {}
 
   public static <A> Option<A> of(A value) {
-    return new Some<>(value);
+    return value != null ? new Some<>(value) : empty();
+  }
+
+  public static <A> Option<A> ofNullable(A value) {
+    return of(value);
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
@@ -19,6 +25,8 @@ public abstract class Option<A> {
   public abstract <B> Option<B> map(Fun<A, B> f);
 
   public abstract <B> B fold(Fun<A, B> fa, Lazy<B> fe);
+
+  public abstract Option<A> filter(Fun<A, Boolean> pred);
 
   public abstract boolean isPresent();
 
@@ -34,6 +42,15 @@ public abstract class Option<A> {
     }
 
     @Override
+    public Option<A> filter(Fun<A, Boolean> pred) {
+      if (Boolean.TRUE.equals(pred.apply(value))) {
+        return this;
+      } else {
+        return empty();
+      }
+    }
+
+    @Override
     public <B> Option<B> map(Fun<A, B> f) {
       return new Some<>(f.apply(value));
     }
@@ -46,6 +63,24 @@ public abstract class Option<A> {
     @Override
     public boolean isPresent() {
       return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Some<?> some = (Some<?>) o;
+      return Objects.equals(value, some.value);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+      return "Some{" + "value=" + value + '}';
     }
   }
 
@@ -64,8 +99,18 @@ public abstract class Option<A> {
     }
 
     @Override
+    public Option<Void> filter(Fun<Void, Boolean> pred) {
+      return this;
+    }
+
+    @Override
     public boolean isPresent() {
       return false;
+    }
+
+    @Override
+    public String toString() {
+      return "None";
     }
   }
 }

@@ -1,4 +1,4 @@
-package org.docspell.docspellshare;
+package org.docspell.docspellshare.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;

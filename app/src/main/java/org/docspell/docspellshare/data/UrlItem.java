@@ -2,7 +2,7 @@ package org.docspell.docspellshare.data;
 
 import java.io.Serializable;
 import java.util.Objects;
-import org.docspell.docspellshare.Strings;
+import org.docspell.docspellshare.util.Strings;
 
 public final class UrlItem implements Serializable, Comparable<UrlItem> {
 

@@ -18,3 +18,4 @@ It works as follows:
 - https://www.android-examples.com/android-swipe-down-to-refresh-recyclerview/
 - https://developer.android.com/studio/write/java8-support.html
 - https://stackoverflow.com/questions/31367599/how-to-update-recyclerview-adapter-data
+- https://zatackcoder.com/android-recyclerview-swipe-to-multiple-options/

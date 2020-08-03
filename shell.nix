@@ -11,7 +11,6 @@ let
       allowUnfree = true;
     };
   };
-
 in
 { pkgs ? pkgsUnstable }:
 
@@ -24,7 +23,9 @@ in
       gradle
       android-studio
     ]);
-  runScript = "bash";
+  runScript = ''
+    bash
+  '';
 }).env
 
 

@@ -5,4 +5,5 @@
     <color name="dsWhite">#f0f8ff</color>
     <color name="dsRed">#9c0011</color>
     <color name="white">#ffffff</color>
+    <color name="isDefault">#CCFF90</color>
 </resources>

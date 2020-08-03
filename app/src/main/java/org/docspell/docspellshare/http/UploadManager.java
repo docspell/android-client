@@ -1,4 +1,4 @@
-package org.docspell.docspellshare;
+package org.docspell.docspellshare.http;
 
 import android.os.Process;
 
