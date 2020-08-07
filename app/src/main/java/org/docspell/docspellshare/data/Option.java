@@ -1,5 +1,6 @@
 package org.docspell.docspellshare.data;
 
+import org.docspell.docspellshare.util.Effect;
 import org.docspell.docspellshare.util.Fun;
 import org.docspell.docspellshare.util.Lazy;
 
@@ -29,6 +30,18 @@ public abstract class Option<A> {
   public abstract <B> Option<B> flatMap(Fun<A, Option<B>> f);
 
   public abstract <B> B fold(Fun<A, B> fa, Lazy<B> fe);
+
+  public final void accept(Effect<A> fa, Runnable felse) {
+    fold(
+        a -> {
+          fa.run(a);
+          return null;
+        },
+        () -> {
+          felse.run();
+          return null;
+        });
+  }
 
   public abstract Option<A> filter(Fun<A, Boolean> pred);
 

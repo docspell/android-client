@@ -6,13 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.docspell.docspellshare.R;
+import org.docspell.docspellshare.data.Option;
 import org.docspell.docspellshare.data.UrlItem;
 import org.docspell.docspellshare.http.HttpRequest;
 import org.docspell.docspellshare.http.ProgressListener;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class ShareActivity extends AppCompatActivity {
 
+  private static final int CHOOSE_URL = 1;
   private DataStore dataStore;
   private Handler handler = new Handler();
 
@@ -72,7 +74,32 @@ public class ShareActivity extends AppCompatActivity {
     setContentView(R.layout.activity_share);
     UploadManager.getInstance().setProgress(progressListener);
 
-    Intent intent = getIntent();
+    Option<UrlItem> uploadUrl = dataStore.getDefaultUrl();
+    uploadUrl.accept(
+        this::sendFiles,
+        () -> {
+          Intent chooseIntent = new Intent(this, ChooseUrlActivity.class);
+          startActivityForResult(chooseIntent, CHOOSE_URL);
+        });
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (data != null && (requestCode == CHOOSE_URL) && resultCode == RESULT_OK) {
+      UrlItem item = (UrlItem) data.getSerializableExtra(UrlItem.class.getName());
+      sendFiles(item);
+    }
+  }
+
+  private void sendFiles(UrlItem item) {
+    List<Uri> uris = findFiles(getIntent());
+    if (!uris.isEmpty() && item != null) {
+      handleFiles(uris, item.getUrl());
+    }
+  }
+
+  private List<Uri> findFiles(Intent intent) {
     String action = intent.getAction();
     String type = intent.getType();
 
@@ -82,7 +109,7 @@ public class ShareActivity extends AppCompatActivity {
       } else {
         Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (uri != null) {
-          handleFiles(Collections.singletonList(uri));
+          return Collections.singletonList(uri);
         }
       }
     } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
@@ -91,23 +118,21 @@ public class ShareActivity extends AppCompatActivity {
       } else {
         List<Uri> fileUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
         if (fileUris != null) {
-          handleFiles(fileUris);
+          return fileUris;
         }
       }
     } else {
       Log.i("missing", "handling action '" + action + "' / '" + type + "' not implemented");
     }
+    return Collections.emptyList();
   }
 
-  void handleFiles(List<Uri> uris) {
-    String url = dataStore.getDefaultUrl().map(UrlItem::getUrl).orElse(null);
-    if (url != null) {
-      HttpRequest.Builder req = HttpRequest.newBuilder().setUrl(url);
-      ContentResolver resolver = getContentResolver();
-      for (Uri uri : uris) {
-        req.addFile(resolver, uri);
-      }
-      UploadManager.getInstance().submit(req.build());
+  void handleFiles(List<Uri> uris, String url) {
+    HttpRequest.Builder req = HttpRequest.newBuilder().setUrl(url);
+    ContentResolver resolver = getContentResolver();
+    for (Uri uri : uris) {
+      req.addFile(resolver, uri);
     }
+    UploadManager.getInstance().submit(req.build());
   }
 }

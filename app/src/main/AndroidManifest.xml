@@ -9,15 +9,17 @@
     <application
             android:allowBackup="true"
             android:fullBackupContent="@xml/backup_rules"
-            android:usesCleartextTraffic="true"
             android:icon="@drawable/logo_96"
             android:label="@string/app_name"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
 
+        <activity android:name=".activity.ChooseUrlActivity" />
         <activity
                 android:name=".activity.QrCodeActivity"
-                android:label="@string/title_activity_qrcode" />
+                android:label="@string/title_activity_qrcode"
+                android:parentActivityName=".activity.AddUrlActivity" />
         <activity
                 android:name=".activity.ShareActivity"
                 android:label="@string/title_activity_share">
@@ -34,7 +36,8 @@
         </activity>
         <activity
                 android:name=".activity.AddUrlActivity"
-                android:label="@string/create_new_url" />
+                android:label="@string/create_new_url"
+                android:parentActivityName=".activity.MainActivity" />
         <activity
                 android:name=".activity.MainActivity"
                 android:label="@string/title_activity_main"
