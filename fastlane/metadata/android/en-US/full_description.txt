@@ -1,0 +1,8 @@
+This is a client for uploading files to Docspell, a free,
+effective document organizer. It requires a hosted docspell server
+to connect to. The app hooks into the *Share With* menu to allow
+uploading files from other apps directly to your server.
+
+For example, the free [[com.todobom.opennotescanner]] app scans
+documents using the camera and with this app you can upload them
+easily to your document organizer.

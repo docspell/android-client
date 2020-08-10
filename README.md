@@ -35,3 +35,10 @@ whether you use android 7.0. It might be
 Summary: The `ssl_ecdh_curve secp384r1;` definition in nginx/apache is
 the problem. Replacing this with `ssl_ecdh_curve prime256v1;` solved
 it. Or, if possible, update android to 7.1+.
+
+
+## Screenhots
+
+![screenshot-1](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/phoneScreenshots/1.jpg)
+![screenshot-2](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/phoneScreenshots/2.jpg)
+![screenshot-3](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/phoneScreenshots/3.jpg)
