@@ -5,15 +5,23 @@ your android device to [docspell](https://docspell.org).
 
 It works as follows:
 
-- create a list of docspell urls and store them inside the app
-- the app hooks into the "share with" android menu
-- Use whatever app, for example a document scanner app and share the
-  result with the docspell android app. It will upload it to the
-  configured url.
+- Create a list of docspell urls and store them inside the app: go to
+  *Collective Settings ‣ Sources* and create a new source or click
+  *Show* on an existing one. Then add the *Public API Upload URL* to
+  this app.
+- Use whatever app, for example a document scanner app, like the free
+  [OpenNoteScanner](https://github.com/ctodobom/OpenNoteScanner) and
+  share the result with the docspell android app. It will be uploaded
+  it to the configured url and docspell starts processing it.
 
-*Note, this is in very early state. I'm trying to get it into the
-f-droid store, until then you'd need to download from the release page
-and install manually.*
+A (slightly :)) longer version from the above is
+[available](https://docspell.org/docs/tools/android/), too.
+
+*Note: I'm [trying to get it into the f-droid
+store](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/7230),
+until then you'd need to download from the [release
+page](https://github.com/docspell/android-client/releases/latest) and
+install manually.*
 
 ## Building
 
