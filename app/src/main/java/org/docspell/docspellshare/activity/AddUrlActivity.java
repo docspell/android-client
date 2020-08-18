@@ -1,21 +1,24 @@
 package org.docspell.docspellshare.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.content.ContextCompat;
 import com.google.android.material.snackbar.Snackbar;
-
 import org.docspell.docspellshare.R;
 import org.docspell.docspellshare.data.UrlItem;
 import org.docspell.docspellshare.util.Strings;
 
 public class AddUrlActivity extends AppCompatActivity {
   private static final int GET_QR_CODE = 1;
+  private static final int CAMERA_PERM_REQUEST_CODE = 2;
 
   public static final String URL_ITEM_EXTRA = "extraUrlItem";
 
@@ -63,8 +66,42 @@ public class AddUrlActivity extends AppCompatActivity {
     }
   }
 
-  public void runQrCode(View view) {
+  private void showCameraRequiredMessage() {
+    View view = findViewById(R.id.addUrlLayout);
+    Snackbar.make(view, "Camera permission is required to capture QR codes.", Snackbar.LENGTH_LONG)
+        .setAction("Action", null)
+        .show();
+  }
+
+  private void captureQRCodeActivity() {
     Intent intent = new Intent(this, QrCodeActivity.class);
     startActivityForResult(intent, GET_QR_CODE);
+  }
+
+  @Override
+  public void onRequestPermissionsResult(
+      int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    if (requestCode == CAMERA_PERM_REQUEST_CODE) {
+      if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        captureQRCodeActivity();
+      } else {
+        showCameraRequiredMessage();
+      }
+    }
+  }
+
+  public void runQrCode(View view) {
+    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
+        == PackageManager.PERMISSION_GRANTED) {
+      captureQRCodeActivity();
+    } else {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        requestPermissions(new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_REQUEST_CODE);
+      } else {
+        showCameraRequiredMessage();
+      }
+    }
   }
 }
