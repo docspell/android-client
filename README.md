@@ -1,23 +1,26 @@
 # Docspell Android Client
 
-This is a very basic android app that can be used to upload files from
-your android device to [docspell](https://docspell.org).
+This is an android app for [docspell](https://docspell.org), a digital
+document organizer and archive. It can be used to conveniently upload
+files from your android device.
 
 It works as follows:
 
-- Create a list of docspell urls and store them inside the app: go to
-  *Collective Settings ‣ Sources* and create a new source or click
-  *Show* on an existing one. Then add the *Public API Upload URL* to
-  this app.
+- Create a list of docspell urls and store them inside the app: Open
+  Docspell in your browser and go to *Collective Settings ‣ Sources*.
+  Create a new source or click *Show* on an existing one. Then add the
+  *Public API Upload URL* to this app by scanning the QR code.
 - Use whatever app, for example a document scanner app, like the free
   [OpenNoteScanner](https://github.com/ctodobom/OpenNoteScanner) and
-  share the result with the docspell android app. It will be uploaded
-  it to the configured url and docspell starts processing it.
+  share the result with the docspell app. It will be uploaded to the
+  configured url and docspell starts processing it immediatly.
 
 A (slightly :)) longer version from the above is
 [available](https://docspell.org/docs/tools/android/), too.
 
-*Note: I'm [trying to get it into the f-droid
+## Installing
+
+*Note: I [submitted it for inclusion into the f-droid
 store](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/7230),
 until then you'd need to download from the [release
 page](https://github.com/docspell/android-client/releases/latest) and
