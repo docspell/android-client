@@ -2,7 +2,6 @@ package org.docspell.docspellshare.http;
 
 import android.os.Process;
 import android.util.Log;
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

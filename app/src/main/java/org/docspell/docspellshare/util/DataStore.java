@@ -3,13 +3,11 @@ package org.docspell.docspellshare.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import org.docspell.docspellshare.data.Option;
-import org.docspell.docspellshare.data.UrlItem;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.docspell.docspellshare.data.Option;
+import org.docspell.docspellshare.data.UrlItem;
 
 public final class DataStore {
   private static final String SHARED_ITEMS_KEY = "org.docspell.docspellshare.ITEMS_KEY";

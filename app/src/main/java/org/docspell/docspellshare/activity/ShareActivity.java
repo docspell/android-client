@@ -8,10 +8,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.Collections;
+import java.util.List;
 import org.docspell.docspellshare.R;
 import org.docspell.docspellshare.data.Option;
 import org.docspell.docspellshare.data.UrlItem;
@@ -20,9 +20,6 @@ import org.docspell.docspellshare.http.ProgressListener;
 import org.docspell.docspellshare.http.UploadManager;
 import org.docspell.docspellshare.util.DataStore;
 import org.docspell.docspellshare.util.Strings;
-
-import java.util.Collections;
-import java.util.List;
 
 public class ShareActivity extends AppCompatActivity {
 

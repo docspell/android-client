@@ -2,11 +2,8 @@ package org.docspell.docspellshare.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.zxing.Result;
-
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QrCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {

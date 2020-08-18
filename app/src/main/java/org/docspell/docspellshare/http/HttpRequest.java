@@ -1,20 +1,16 @@
 package org.docspell.docspellshare.http;
 
+import static org.docspell.docspellshare.util.Strings.requireNonEmpty;
+
 import android.content.ContentResolver;
 import android.net.Uri;
-
 import androidx.annotation.NonNull;
-
-import org.docspell.docspellshare.data.Option;
-import org.docspell.docspellshare.util.Uris;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.ConnectionSpec;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -25,8 +21,8 @@ import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
-
-import static org.docspell.docspellshare.util.Strings.requireNonEmpty;
+import org.docspell.docspellshare.data.Option;
+import org.docspell.docspellshare.util.Uris;
 
 public final class HttpRequest {
   private static final int CHUNK_SIZE = 16 * 1024;

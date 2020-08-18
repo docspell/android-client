@@ -1,10 +1,9 @@
 package org.docspell.docspellshare.data;
 
+import java.util.Objects;
 import org.docspell.docspellshare.util.Effect;
 import org.docspell.docspellshare.util.Fun;
 import org.docspell.docspellshare.util.Lazy;
-
-import java.util.Objects;
 
 public abstract class Option<A> {
 

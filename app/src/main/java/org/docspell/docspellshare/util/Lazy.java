@@ -4,5 +4,4 @@ package org.docspell.docspellshare.util;
 public interface Lazy<A> {
 
   A get();
-
 }

@@ -1,9 +1,8 @@
 package org.docspell.docspellshare.util;
 
-import org.docspell.docspellshare.data.Option;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.docspell.docspellshare.data.Option;
 
 public final class Strings {
   private Strings() {}

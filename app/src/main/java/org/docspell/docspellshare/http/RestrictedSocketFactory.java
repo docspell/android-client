@@ -1,13 +1,11 @@
 package org.docspell.docspellshare.http;
 
 import android.util.Log;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
 import javax.net.SocketFactory;
 
 /**
