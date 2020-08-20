@@ -50,6 +50,6 @@ it. Or, if possible, update android to 7.1+.
 
 ## Screenhots
 
-![screenshot-1](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/phoneScreenshots/1.jpg)
-![screenshot-2](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/phoneScreenshots/2.jpg)
-![screenshot-3](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/phoneScreenshots/3.jpg)
+![screenshot-1](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg)
+![screenshot-2](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg)
+![screenshot-3](https://raw.githubusercontent.com/docspell/android-client/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg)
