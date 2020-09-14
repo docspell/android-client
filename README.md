@@ -20,11 +20,13 @@ A (slightly :)) longer version from the above is
 
 ## Installing
 
-*Note: I [submitted it for inclusion into the f-droid
-store](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/7230),
-until then you'd need to download from the [release
-page](https://github.com/docspell/android-client/releases/latest) and
-install manually.*
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/org.docspell.docspellshare)
+
+Or
+
+Download from the [release page](https://github.com/docspell/android-client/releases/latest).
 
 ## Building
 
