@@ -1,5 +1,11 @@
-This is a client for uploading files to Docspell – a free, effective
-document organizer. It requires a running Docspell server to connect
-to. The app hooks into the *Share With* menu to allow uploading files
-from other apps (i.e. scanner apps like OpenNoteScanner) directly to
-your server.
+This is a client for uploading files to Docspell. It requires a running Docspell server to connect to. The app hooks into the <em>Share With</em> menu to allow uploading files from other apps (i.e. scanner apps like OpenNoteScanner) directly to your server.
+
+- Maintain a list of Docspell URLs to upload to
+- Select an URL each time or set a default one
+
+<b>Permissions</b>
+- CAMERA: optional; it is used to scan QR codes for conveniently copying URLs from a screen.
+- INTERNET: to upload a file to a remote Docspell server
+
+Docspell is a free and effective document organizer. It assists in organizing your piles of digital documents, resulting from scanners, e-mails and other sources with miminal effort.
+https://docspell.org
