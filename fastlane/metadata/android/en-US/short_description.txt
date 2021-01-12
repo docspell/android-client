@@ -1,1 +1,1 @@
-Upload client for Docspell, a free document organizer
+Share documents with your Docspell server

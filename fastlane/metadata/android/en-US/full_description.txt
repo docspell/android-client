@@ -1,4 +1,6 @@
-This is a client for uploading files to Docspell. It requires a running Docspell server to connect to. The app hooks into the <em>Share With</em> menu to allow uploading files from other apps (i.e. scanner apps like OpenNoteScanner) directly to your server.
+<i>Docspell Share</i> adds Docspell to the Android share menu to easily push files to your Docspell server.
+
+It requires a running <a href='https://docspell.org' target='_blank'>Docspell</a> server instance, which you can host yourself for free. Use specialized scan apps like OpenNoteScanner (on F-Droid), OpenScan or Office Lens to create documents and push them directly to your server. Docspell allows for different upload URLs, where each may define additional metadata to add (e.g. tags). This app lets you manage these upload URLs, you can
 
 - Maintain a list of Docspell URLs to upload to
 - Select an URL each time or set a default one
@@ -7,5 +9,4 @@ This is a client for uploading files to Docspell. It requires a running Docspell
 - CAMERA: optional; it is used to scan QR codes for conveniently copying URLs from a screen.
 - INTERNET: to upload a file to a remote Docspell server
 
-Docspell is a free and effective document organizer. It assists in organizing your piles of digital documents, resulting from scanners, e-mails and other sources with miminal effort.
-https://docspell.org
+Docspell consumes your files, extracts and analyses the text and adds metadata automatically. It lets you manage your documents with minial effort. Check out the <a href='https://docspell.org/docs' target='_blank'>documentation</a>.
