@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DocspellShare</string>
+    <string name="app_name">Docspell Share</string>
     <string name="title_activity_main">Docspell Share</string>
     <string name="title_activity_share">Upload to Docspell</string>
     <string name="title_activity_qrcode">Scan URL</string>
