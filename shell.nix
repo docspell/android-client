@@ -1,7 +1,7 @@
 let
   nixpkgsUnstable = builtins.fetchTarball {
-    ##this is nixpkgs-unstable @ 02.08.2020
-    url = "https://github.com/NixOS/nixpkgs-channels/archive/840c782d507d60aaa49aa9e3f6d0b0e780912742.tar.gz";
+    ##this is nixpkgs-21.05 @ 03.06.2021
+    url = "https://github.com/NixOS/nixpkgs/archive/eaba7870ffc3400eca4407baa24184b7fe337ec1.tar.gz";
   };
   pkgsUnstable = import nixpkgsUnstable {
     config = {
