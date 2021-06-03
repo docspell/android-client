@@ -9,6 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 6
+        // keep this format or change github workflows bash quirks
         versionName "0.6.0-SNAPSHOT"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

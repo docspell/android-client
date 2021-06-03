@@ -1,0 +1,47 @@
+name: Release
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  release:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 100
+      - name: Fetch tags
+        run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Set current version
+        run:  echo "PROJECT_VERSION=$(cat app/build.gradle | grep versionName | cut -d\" -f2 | xargs)" >> $GITHUB_ENV
+      - name: gradle build ${{ github.ref }}
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          gradle-version: wrapper
+          arguments: --no-parallel --no-daemon --build-cache build assembleRelease
+      - uses: r0adkll/sign-android-release@v1
+        name: Sign app APK
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Rename apk file
+        run: mv ${{steps.sign_app.outputs.signedReleaseFile}} docspell-share-${{ env.PROJECT_VERSION }}.apk
+      - uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Docspell Share ${{ env.PROJECT_VERSION }}
+          gzip: false
+          draft: true
+          prerelease: false
+          allow_override: false
+          files: >
+            docspell-share-${{ env.PROJECT_VERSION }}.apk
