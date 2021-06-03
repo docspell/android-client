@@ -1,0 +1,29 @@
+name: CI
+on:
+  pull_request:
+jobs:
+  ci-matrix:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 100
+      - name: Fetch tags
+        run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: gradle build ${{ github.ref }}
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          gradle-version: wrapper
+          arguments: --no-parallel --no-daemon --build-cache build assembleDebug
+
+  ci:
+    runs-on: ubuntu-20.04
+    needs: [ci-matrix]
+    steps:
+      - name: Aggregate of lint, and all tests
+        run: echo "ci passed"
