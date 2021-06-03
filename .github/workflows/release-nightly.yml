@@ -16,6 +16,7 @@ jobs:
         run: git fetch --depth=100 origin +refs/tags/*:refs/tags/*
       - uses: actions/setup-java@v2
         with:
+          distribution: adopt
           java-version: 11
       - name: Set current version
         run:  echo "PROJECT_VERSION=$(cat app/build.gradle | grep versionName | cut -d\" -f2 | xargs)" >> $GITHUB_ENV
