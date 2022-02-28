@@ -22,6 +22,7 @@ import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
 import org.docspell.docspellshare.data.Option;
+import org.docspell.docspellshare.util.Strings;
 import org.docspell.docspellshare.util.Uris;
 
 public final class HttpRequest {
@@ -67,7 +68,7 @@ public final class HttpRequest {
     private final List<DataPart> parts = new ArrayList<>();
     private String url;
 
-    public Builder addFile(ContentResolver resolver, Uri data) {
+    public Builder addFile(ContentResolver resolver, Uri data, String fileName) {
       parts.add(
           new DataPart() {
             @Override
@@ -77,7 +78,11 @@ public final class HttpRequest {
 
             @Override
             public String getName() {
-              return data.getLastPathSegment();
+              if (Strings.isNullOrBlank(fileName)) {
+                return data.getLastPathSegment();
+              } else {
+                return fileName;
+              }
             }
 
             @Override
@@ -131,7 +136,7 @@ public final class HttpRequest {
       @Override
       public void writeTo(@NonNull BufferedSink sink) throws IOException {
         try (InputStream in = part.getData();
-            Source source = Okio.source(in)) {
+             Source source = Okio.source(in)) {
           long total = 0;
           long read;
           while ((read = source.read(sink.getBuffer(), CHUNK_SIZE)) != -1) {

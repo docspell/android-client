@@ -2,14 +2,18 @@ package org.docspell.docspellshare.activity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Collections;
 import java.util.List;
 import org.docspell.docspellshare.R;
@@ -128,8 +132,54 @@ public class ShareActivity extends AppCompatActivity {
     HttpRequest.Builder req = HttpRequest.newBuilder().setUrl(url);
     ContentResolver resolver = getContentResolver();
     for (Uri uri : uris) {
-      req.addFile(resolver, uri);
+        req.addFile(resolver, uri, parseFilenameFromUri(uri));
     }
     UploadManager.getInstance().submit(req.build());
   }
+
+    /**
+     * Parses the filename for the passed uri.
+     * Depending on the source application, a file:// or content:// will be shared.
+     * If a file:// is shared, the filename/title is the last segment of the uri.
+     * IF NOT, the last segment of the uri is the android document id which is not related to the
+     * document at all.
+     * Therefore, a cursor has to be defined to read the content's metadata to obtain the name/title
+     *
+     * See https://developer.android.com/training/secure-file-sharing/retrieve-info?hl=en for ref
+     *
+     * @param uri link to content/file the name should be parsed from
+     * @return parsed "real" name of the content/file
+     */
+  private String parseFilenameFromUri(Uri uri) {
+    String fileName = null;
+    if (uri.getScheme().equals("file")) {
+        fileName = uri.getLastPathSegment();
+    } else {
+        Cursor cursor = null;
+        try {
+            cursor = getContentResolver().query(
+                    uri,
+                    new String[]{
+                        MediaStore.Images.ImageColumns.DISPLAY_NAME
+                    },
+                    null,
+                    null,
+                    null
+            );
+            if (cursor != null && cursor.moveToFirst()) {
+                fileName = cursor.getString(
+                        cursor.getColumnIndex(
+                                OpenableColumns.DISPLAY_NAME
+                        )
+                );
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+    return fileName;
+  }
 }
+
