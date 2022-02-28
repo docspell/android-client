@@ -35,6 +35,7 @@ public final class HttpRequest {
                   ConnectionSpec.CLEARTEXT))
           .readTimeout(5, TimeUnit.MINUTES)
           .writeTimeout(5, TimeUnit.MINUTES)
+          .addInterceptor(new UserAgentInterceptor())
           .socketFactory(new RestrictedSocketFactory(CHUNK_SIZE))
           .followRedirects(true)
           .followSslRedirects(true)
@@ -48,7 +49,7 @@ public final class HttpRequest {
     this.data = data;
   }
 
-  public int execute(ProgressListener progressListener) throws IOException {
+  public Response execute(ProgressListener progressListener) throws IOException {
     MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
     for (DataPart dp : data) {
       body.addFormDataPart("file", dp.getName(), createPartBody(dp, progressListener));
@@ -56,7 +57,7 @@ public final class HttpRequest {
 
     Request req = new Request.Builder().url(url).post(body.build()).build();
     Response response = client.newCall(req).execute();
-    return response.code();
+    return response;
   }
 
   public static Builder newBuilder() {

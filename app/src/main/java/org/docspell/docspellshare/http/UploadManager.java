@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import okhttp3.Response;
+
 public final class UploadManager {
 
   private static final UploadManager INSTANCE = new UploadManager();
@@ -46,8 +48,10 @@ public final class UploadManager {
     public void run() {
       Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
       try {
-        int code = request.execute(listener);
-        listener.onFinish(code);
+        Response resp = request.execute(listener);
+        listener.onFinish(resp.code());
+        resp.close();
+
       } catch (IOException e) {
         Log.e("upload", "Error uploading!", e);
         listener.onException(e);
