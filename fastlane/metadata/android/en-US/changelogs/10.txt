@@ -1,0 +1,2 @@
+- Use a custom user-agent header to prevent banning from WAFs (#57)
+- Fix sending correct filename in some cases (#58)
