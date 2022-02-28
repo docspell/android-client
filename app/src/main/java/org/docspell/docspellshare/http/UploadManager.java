@@ -48,10 +48,13 @@ public final class UploadManager {
     public void run() {
       Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
       try {
-        Response resp = request.execute(listener);
-        listener.onFinish(resp.code());
-        resp.close();
-
+        Response resp = null;
+        try {
+          resp = request.execute(listener);
+          listener.onFinish(resp.code());
+        } finally {
+          resp.close();
+        }
       } catch (IOException e) {
         Log.e("upload", "Error uploading!", e);
         listener.onException(e);
