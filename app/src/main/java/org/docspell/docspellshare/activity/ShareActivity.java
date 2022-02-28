@@ -160,15 +160,18 @@ public class ShareActivity extends AppCompatActivity {
             cursor = getContentResolver().query(
                     uri,
                     new String[]{
-                        MediaStore.Images.ImageColumns.DISPLAY_NAME
+                            MediaStore.Images.ImageColumns.DISPLAY_NAME
                     },
                     null,
                     null,
                     null
             );
             if (cursor != null && cursor.moveToFirst()) {
-                fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                fileName = cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME));
             }
+        } catch (IllegalArgumentException e) {
+            // exception will be thrown if index is out of range (e.x. -1).
+            // No need to handle the exception since the HttpRequest Class will fallback to Document ID
         } finally {
             if (cursor != null) {
                 cursor.close();
