@@ -167,11 +167,7 @@ public class ShareActivity extends AppCompatActivity {
                     null
             );
             if (cursor != null && cursor.moveToFirst()) {
-                fileName = cursor.getString(
-                        cursor.getColumnIndex(
-                                OpenableColumns.DISPLAY_NAME
-                        )
-                );
+                fileName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
             }
         } finally {
             if (cursor != null) {
