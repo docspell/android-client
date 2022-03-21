@@ -8,9 +8,9 @@ android {
         applicationId "org.docspell.docspellshare"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
+        versionCode 20
         // keep this format or change github workflows bash quirks
-        versionName "0.8.0-SNAPSHOT"
+        versionName "0.8.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
