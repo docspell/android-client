@@ -36,11 +36,11 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       - name: Rename apk file
         run: mv ${{steps.sign_app.outputs.signedReleaseFile}} docspell-share-${{ env.PROJECT_VERSION }}.apk
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "nightly"
-          prerelease: true
-          title: "Docspell Share Nightly"
-          files: |
-            docspell-share-${{ env.PROJECT_VERSION }}.apk
+      # - uses: "marvinpinto/action-automatic-releases@latest"
+      #   with:
+      #     repo_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     automatic_release_tag: "nightly"
+      #     prerelease: true
+      #     title: "Docspell Share Nightly"
+      #     files: |
+      #       docspell-share-${{ env.PROJECT_VERSION }}.apk
