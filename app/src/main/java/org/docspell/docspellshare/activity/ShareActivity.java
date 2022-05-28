@@ -19,7 +19,7 @@ import java.util.List;
 import org.docspell.docspellshare.R;
 import org.docspell.docspellshare.data.Option;
 import org.docspell.docspellshare.data.UrlItem;
-import org.docspell.docspellshare.http.HttpRequest;
+import org.docspell.docspellshare.http.UploadRequest;
 import org.docspell.docspellshare.http.ProgressListener;
 import org.docspell.docspellshare.http.UploadManager;
 import org.docspell.docspellshare.util.DataStore;
@@ -129,7 +129,7 @@ public class ShareActivity extends AppCompatActivity {
   }
 
   void handleFiles(List<Uri> uris, String url) {
-    HttpRequest.Builder req = HttpRequest.newBuilder().setUrl(url);
+    UploadRequest.Builder req = UploadRequest.newBuilder().setUrl(url);
     ContentResolver resolver = getContentResolver();
     for (Uri uri : uris) {
         req.addFile(resolver, uri, parseFilenameFromUri(uri));

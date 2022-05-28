@@ -2,6 +2,9 @@ package org.docspell.docspellshare.http;
 
 import android.os.Process;
 import android.util.Log;
+
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,16 +33,16 @@ public final class UploadManager {
     }
   }
 
-  public void submit(HttpRequest request) {
+  public void submit(UploadRequest request) {
     executorService.submit(new UploadWorker(request, progress.get()));
   }
 
   static class UploadWorker implements Runnable {
 
-    private final HttpRequest request;
+    private final UploadRequest request;
     private final ProgressListener listener;
 
-    UploadWorker(HttpRequest request, ProgressListener listener) {
+    UploadWorker(UploadRequest request, ProgressListener listener) {
       this.request = request;
       this.listener = listener;
     }
@@ -55,7 +58,7 @@ public final class UploadManager {
         } finally {
           resp.close();
         }
-      } catch (IOException e) {
+      } catch (IOException | JSONException e) {
         Log.e("upload", "Error uploading!", e);
         listener.onException(e);
       }

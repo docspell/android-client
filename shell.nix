@@ -1,9 +1,9 @@
 let
-  nixpkgsUnstable = builtins.fetchTarball {
-    ##this is nixpkgs-21.05 @ 03.06.2021
-    url = "https://github.com/NixOS/nixpkgs/archive/eaba7870ffc3400eca4407baa24184b7fe337ec1.tar.gz";
+  nixpkgs = builtins.fetchTarball {
+    ##this is nixpkgs-22.05 @ 27.05.2022
+    url = "https://github.com/NixOS/nixpkgs/archive/6efc186e6079ff3f328a2497ff3d36741ac60f6e.tar.gz";
   };
-  pkgsUnstable = import nixpkgsUnstable {
+  defaultPkgs = import nixpkgs {
     config = {
       android_sdk = {
         accept_license = true;
@@ -12,7 +12,7 @@ let
     };
   };
 in
-{ pkgs ? pkgsUnstable }:
+{ pkgs ? defaultPkgs }:
 
 (pkgs.buildFHSUserEnv {
   name = "android-sdk-env";
@@ -20,39 +20,19 @@ in
     [
       androidenv.androidPkgs_9_0.androidsdk
       glibc
-      gradle
+      (gradle.override {
+        java = openjdk11;
+      })
       android-studio
+      openjdk11
+      git
     ]);
+
+  profile = ''
+    export JAVA_HOME="${pkgs.openjdk11}/lib/openjdk"
+  '';
+
   runScript = ''
     bash
   '';
 }).env
-
-
-# let
-#   nixpkgsUnstable = builtins.fetchTarball {
-#     url = "https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz";
-#   };
-#   pkgsUnstable = import nixpkgsUnstable {
-#     config = {
-#       android_sdk = {
-#         accept_license = true;
-#       };
-#     };
-#   };
-
-#   androidSdk = pkgsUnstable.androidenv.androidPkgs_9_0.androidsdk;
-#   platformTools = pkgsUnstable.androidenv.androidPkgs_9_0.platform-tools;
-# in
-# with pkgsUnstable;
-
-# mkShell {
-#   buildInputs = [
-#     platformTools
-#     androidSdk
-#     gradle
-#     glibc
-#   ];
-
-#   GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/28.0.3/aapt2";
-# }
