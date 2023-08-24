@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: true
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.6.0
         with:
           fetch-depth: 100
       - name: Fetch tags
