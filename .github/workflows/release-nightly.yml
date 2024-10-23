@@ -21,7 +21,7 @@ jobs:
       - name: Set current version
         run:  echo "PROJECT_VERSION=$(cat app/build.gradle | grep versionName | cut -d\" -f2 | xargs)" >> $GITHUB_ENV
       - name: gradle build ${{ github.ref }}
-        uses: burrunan/gradle-cache-action@v1
+        uses: burrunan/gradle-cache-action@v2
         with:
           gradle-version: wrapper
           arguments: --no-parallel --no-daemon --build-cache build assembleRelease
